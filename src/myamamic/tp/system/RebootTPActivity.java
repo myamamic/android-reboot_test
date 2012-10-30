@@ -1,4 +1,5 @@
-package yama.tp.system;
+package myamamic.tp.system;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,7 +40,7 @@ public class RebootTPActivity extends Activity {
         // Is this activity is launched from BroadcastReceiver ?
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
             Log.d(TAG, "onCreate() : Start from BroadcastReceiver.");
-            mRebootTimer.rebootAfterTime(1*60*1000); // Reboot after 3 minutes
+            mRebootTimer.rebootAfterTime(1*60*1000); // Reboot after 1 minutes
         }
     }
 

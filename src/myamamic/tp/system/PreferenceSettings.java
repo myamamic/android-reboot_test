@@ -1,4 +1,4 @@
-package yama.tp.system;
+package myamamic.tp.system;
 
 import android.content.Context;
 import android.content.SharedPreferences;

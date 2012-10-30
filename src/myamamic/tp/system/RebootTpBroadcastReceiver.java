@@ -1,4 +1,4 @@
-package yama.tp.system;
+package myamamic.tp.system;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
