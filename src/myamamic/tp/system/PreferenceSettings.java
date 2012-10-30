@@ -12,55 +12,74 @@ public class PreferenceSettings {
 
     private static final int REPEAT_COUNT_LIMIT = 300;
 
+    /*
+     * Reboot cycle flag
+     */
     static public boolean getRebootCycleEnableFlag(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        boolean enableflag = settings.getBoolean(PREFS_REBOOTTP_REBOOTCYCLE_ENABLEFLASG, false);
-        return enableflag;
+        return getValue(context, PREFS_REBOOTTP_REBOOTCYCLE_ENABLEFLASG, false);
     }
-
     static public void saveRebootCycleEnableFlag(Context context, boolean enable) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(PREFS_REBOOTTP_REBOOTCYCLE_ENABLEFLASG, enable);
-        editor.commit();
+        putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_ENABLEFLASG, enable);
     }
 
+    /*
+     * Reboot limit flag
+     */
     static public boolean getRebootCycleEnableLimit(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        boolean enableflag = settings.getBoolean(PREFS_REBOOTTP_REBOOTCYCLE_ENABLELIMIT, false);
-        return enableflag;
+        return getValue(context, PREFS_REBOOTTP_REBOOTCYCLE_ENABLELIMIT, false);
     }
-
     static public void saveRebootCycleEnableLimit(Context context, boolean enable) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(PREFS_REBOOTTP_REBOOTCYCLE_ENABLELIMIT, enable);
-        editor.commit();
+        putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_ENABLELIMIT, enable);
     }
 
+    /*
+     * Reboot limit count
+     */
     static public int getRebootCycleLimitCount(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        int limitCount = settings.getInt(PREFS_REBOOTTP_REBOOTCYCLE_LIMITCOUNT, REPEAT_COUNT_LIMIT);
-        return limitCount;
+        return getValue(context, PREFS_REBOOTTP_REBOOTCYCLE_LIMITCOUNT, REPEAT_COUNT_LIMIT);
+    }
+    static public void saveRebootCycleLimitCount(Context context, int count) {
+        putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_LIMITCOUNT, count);
     }
 
-    static public void saveRebootCycleLimitCount(Context context, int count) {
+    /*
+     * Rebooted count
+     */
+    static public int getRebootedCount(Context context) {
+        return getValue(context, PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT, 0);
+    }
+    static public void saveRebootedCount(Context context, int count) {
+        putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT, count);
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+    //// Private methods
+    ////////////////////////////////////////////////////////////////////////
+    /*
+     * boolean
+     */
+    static private boolean getValue(Context context, String key, boolean defaultValue) {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
+        return settings.getBoolean(key, defaultValue);
+    }
+    static private void putValue(Context context, String key, boolean value) {
         SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(PREFS_REBOOTTP_REBOOTCYCLE_LIMITCOUNT, count);
+        editor.putBoolean(key, value);
         editor.commit();
     }
 
-    static public int getRebootedCount(Context context) {
+    /*
+     * int
+     */
+    static private int getValue(Context context, String key, int defaultValue) {
         SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
-        int rebootedCount = settings.getInt(PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT, 0);
-        return rebootedCount;
+        return settings.getInt(key, defaultValue);
     }
-
-    static public void saveRebootedCount(Context context, int count) {
+    static private void putValue(Context context, String key, int value) {
         SharedPreferences settings = context.getSharedPreferences(PREFS_REBOOTTP, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT, count);
+        editor.putInt(key, value);
         editor.commit();
     }
 }
