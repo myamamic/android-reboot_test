@@ -7,8 +7,9 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Large Text"
+    android:text="@string/text_reboot_interval"
     android:textAppearance="?android:attr/textAppearanceLarge" />
+
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
@@ -17,13 +18,13 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="START Button" />
+      android:text="@string/button_start" />
     <Button
       android:id="@+id/button_rebootcycle_stop"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="STOP Button" />
+      android:text="@string/button_stop" />
   </LinearLayout>
 
   <LinearLayout
@@ -34,7 +35,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:text="Enable the repeat count limit" />
+      android:text="@string/check_repeat_limit" />
     <EditText
       android:id="@+id/edit_repeatcountlimit"
       android:layout_width="match_parent"
