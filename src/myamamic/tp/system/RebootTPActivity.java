@@ -13,10 +13,15 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,6 +36,16 @@ public class RebootTPActivity extends Activity {
     private int mRebootedCount = 0;
 
     private RebootTimer mRebootTimer = new RebootTimer();
+
+    @SuppressWarnings("serial")
+    private static final Map<Integer, Integer> sIntervalMinutesArray= new HashMap<Integer, Integer>() {{
+        put(R.id.radio_1, 1);
+        put(R.id.radio_3, 3);
+        put(R.id.radio_5, 5);
+        put(R.id.radio_10, 10);
+        put(R.id.radio_30, 30);
+        put(R.id.radio_60, 60);
+    }};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +71,24 @@ public class RebootTPActivity extends Activity {
         mRepeatCountLimitCheck.setOnCheckedChangeListener(mRepeatCountLimitChangeListener);
         mRepeatCountLimitEdit = (EditText)findViewById(R.id.edit_repeatcountlimit);
         mRebootedCountText = (TextView)findViewById(R.id.text_rebootedcount);
+
+        // Get current interval setting
+        int interval = PreferenceSettings.getRebootInterval(getApplicationContext());
+
+        // Create radio buttons
+        RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radio_group);
+        RadioButton radioButton;
+        for (Entry<Integer, Integer> entry : sIntervalMinutesArray.entrySet()) {
+            radioButton = new RadioButton(getApplicationContext());
+            radioButton.setId(entry.getKey());
+            int value = entry.getValue();
+            radioButton.setText(Integer.toString(value) + " " + getString(R.string.text_minutes));
+            if (value*60*1000 == interval) { // Unit: msec
+                radioButton.setChecked(true);
+            }
+            radioGroup.addView(radioButton);
+        }
+        radioGroup.setOnCheckedChangeListener(mRadioButtonCheckedChangeListener);
 
         loadPreferences();
     }
@@ -90,6 +123,16 @@ public class RebootTPActivity extends Activity {
         mRebootedCount = PreferenceSettings.getRebootedCount(context);
         mRebootedCountText.setText(String.valueOf(mRebootedCount));
     }
+
+    private RadioGroup.OnCheckedChangeListener mRadioButtonCheckedChangeListener
+            = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            int interval = sIntervalMinutesArray.get(checkedId) *60*1000;
+            Log.e(TAG, "Set interval " + interval + " msec.");
+            PreferenceSettings.putRebootInterval(getApplicationContext(), interval);
+        }
+    };
 
     private void changeButtonState(boolean testStarted) {
         if (testStarted) { // During reboot cycle test...
@@ -130,8 +173,9 @@ public class RebootTPActivity extends Activity {
         }
     };
 
-    private OnCheckedChangeListener mRepeatCountLimitChangeListener = new OnCheckedChangeListener() {
-        //@Override
+    private CompoundButton.OnCheckedChangeListener mRepeatCountLimitChangeListener
+            = new CompoundButton.OnCheckedChangeListener() {
+        @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) { // Enable reboot cycle limit
                 int limitCount = Integer.valueOf(mRepeatCountLimitEdit.getText().toString());

@@ -3,6 +3,7 @@
     <string name="app_name">RebootTP</string>
 
     <string name="text_reboot_interval">Reboot interval (This setting is enabled after the next reboot.)</string>
+    <string name="text_minutes">minutes</string>
     <string name="button_start">START</string>
     <string name="button_stop">STOP</string>
     <string name="check_repeat_limit">Enable the repeat count limit</string>

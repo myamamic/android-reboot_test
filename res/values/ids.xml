@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item type="id" name="radio_1"/>
+    <item type="id" name="radio_3"/>
+    <item type="id" name="radio_5"/>
+    <item type="id" name="radio_10"/>
+    <item type="id" name="radio_30"/>
+    <item type="id" name="radio_60"/>
+</resources>
