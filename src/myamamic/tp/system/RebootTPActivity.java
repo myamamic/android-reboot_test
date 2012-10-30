@@ -40,7 +40,8 @@ public class RebootTPActivity extends Activity {
         // Is this activity is launched from BroadcastReceiver ?
         if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
             Log.d(TAG, "onCreate() : Start from BroadcastReceiver.");
-            mRebootTimer.rebootAfterTime(1*60*1000); // Reboot after 1 minutes
+            int interval = PreferenceSettings.getRebootInterval(getApplicationContext());
+            mRebootTimer.rebootAfterTime(interval);
         }
     }
 
@@ -110,7 +111,8 @@ public class RebootTPActivity extends Activity {
             changeButtonState(true);
             PreferenceSettings.saveRebootCycleEnableFlag(getApplicationContext(), true);
 
-            mRebootTimer.rebootAfterTime(1*60*1000); // Reboot after 1 minutes
+            int interval = PreferenceSettings.getRebootInterval(getApplicationContext());
+            mRebootTimer.rebootAfterTime(interval);
         }
     };
 

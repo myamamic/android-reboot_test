@@ -9,8 +9,11 @@ public class PreferenceSettings {
     private static final String PREFS_REBOOTTP_REBOOTCYCLE_ENABLELIMIT = "rebootcycle_enablelimit";
     private static final String PREFS_REBOOTTP_REBOOTCYCLE_LIMITCOUNT = "rebootcycle_limitcount";
     private static final String PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT = "rebootcycle_rebootedcount";
+    private static final String PREFS_REBOOTTP_REBOOTCYCLE_INTERVAL_MSEC = "rebootcycle_interval_msec";
 
     private static final int REPEAT_COUNT_LIMIT = 300;
+    private static final int MIN_REBOOT_INTERVAL = 60*1*1000; // 1 minute.
+    private static final int MAX_REBOOT_INTERVAL = 60*60*1*1000; // 1 hour.
 
     /*
      * Reboot cycle flag
@@ -51,6 +54,23 @@ public class PreferenceSettings {
     static public void saveRebootedCount(Context context, int count) {
         putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_REBOOTEDCOUNT, count);
     }
+
+    /*
+     * Reboot cycle interval (ms)
+     */
+    static public int getRebootInterval(Context context) {
+        int interval = getValue(context, PREFS_REBOOTTP_REBOOTCYCLE_INTERVAL_MSEC, MIN_REBOOT_INTERVAL);
+        if (interval < MIN_REBOOT_INTERVAL) {
+            interval = MIN_REBOOT_INTERVAL;
+        } else if (MAX_REBOOT_INTERVAL < interval) {
+            interval = MAX_REBOOT_INTERVAL;
+        }
+        return interval;
+    }
+    static public void putRebootInterval(Context context, int interval) {
+        putValue(context, PREFS_REBOOTTP_REBOOTCYCLE_INTERVAL_MSEC, interval);
+    }
+
 
     ////////////////////////////////////////////////////////////////////////
     //// Private methods
